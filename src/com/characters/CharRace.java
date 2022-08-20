@@ -2,7 +2,8 @@ package src.com.characters;
 
 public enum CharRace {   // класс персонажа
     HUMAN ("человек", 20, 10, 20, 7, 10, 10, 10, 15, 5, 5),     // раса человек
-    TROLL ("троль", 15, 12, 15, 10, 7, 12, 7, 10, 7, 10);       // раса троль
+    TROLL ("троль", 15, 12, 15, 10, 7, 12, 7, 10, 7, 10),       // раса троль
+    ORC ("орк", 25, 15, 5, 5, 15, 5,5,20,2,12);
     final String raceName;
     final double maxHp, attack, magicPower, critChance, crit, contreAttack, miss, defence, dodge, parry;
 
