@@ -14,14 +14,12 @@ public class Main {
         p1.printChar();
         p2.printChar();
 
-        System.out.print("(1.Новый герой)/(2.Загрузить):");
+        System.out.print("(1.Новый герой)/(2.Загрузить): ");
         Scanner input = new Scanner(System.in);
         if (input.nextInt() == 2) {player = GameLogic.loadChar();
         } else {player = GameLogic.newChar();}
         input.close();
         player.printChar();
         GameLogic.saveChar(player);
-
-
     }
 }

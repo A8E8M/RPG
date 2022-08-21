@@ -40,6 +40,8 @@ public class Character {
     }
     public Character (String saveStr) {
         String[] save = saveStr.split(" ");
+        System.out.println(save[1]);
+        System.out.println();
         this.charRace = CharRace.valueOf(save[1]);                  // раса
         this.charClass = CharClass.valueOf(save[2]);                // класс
         this.name = save[0];                                        // имя
@@ -56,7 +58,7 @@ public class Character {
         this.parry = Double.parseDouble(save[13]);                  // шанс парировать удар, %
     }
     public String saveChar (){
-        return name+" "+charRace.getNameRace()+" "+charClass.getNameClass() +" " + level+" " + maxHp + " " +  attack + " " +  magicPower + " " +  critChance + " " +  crit + " " +  contreAttack + " " +  miss + " " +  defence + " " +  dodge + " " +  parry;
+        return name+" "+charRace+" "+charClass +" " + level+" " + maxHp + " " +  attack + " " +  magicPower + " " +  critChance + " " +  crit + " " +  contreAttack + " " +  miss + " " +  defence + " " +  dodge + " " +  parry;
     }
     public boolean isAlive (){
         return alive;
