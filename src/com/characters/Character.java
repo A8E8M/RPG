@@ -40,8 +40,6 @@ public class Character {
     }
     public Character (String saveStr) {
         String[] save = saveStr.split(" ");
-        System.out.println(save[1]);
-        System.out.println();
         this.charRace = CharRace.valueOf(save[1]);                  // раса
         this.charClass = CharClass.valueOf(save[2]);                // класс
         this.name = save[0];                                        // имя

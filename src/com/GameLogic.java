@@ -13,26 +13,37 @@ import java.util.Scanner;
 public abstract class GameLogic {
     private static final String filePath = "src/com/saves/saves";       // расположение файла с сохранением
     private static final File saves = new File(filePath);               // файл с сохранением
+
+    // Создание нового персонажа.
     public static Character newChar(){
+        CharRace charRace = CharRace.HUMAN;                             // раса по умолчанию
+        CharClass charClass = CharClass.WARRIOR;                        // класс по умолчанию
+
         Scanner input = new Scanner(System.in);
         System.out.print("Введите имя: ");
         String name = input.nextLine();
+
         System.out.print("Выберите расу (1.Человек)/(2.Троль)/(3.Орк): ");
-        CharRace charRace;
-        switch (input.nextInt()) {
-            case 2 -> charRace = CharRace.TROLL;
-            case 3 -> charRace = CharRace.ORC;
-            default -> charRace = CharRace.HUMAN;
-        }
+        String choiceString = input.nextLine();
+        try {
+            switch (Integer.parseInt(choiceString)) {
+                case 2 -> charRace = CharRace.TROLL;
+                case 3 -> charRace = CharRace.ORC;
+            }
+        } catch (Exception ignored) {        }
+
         System.out.print("Выберите класс (1.Воин)/(2.Маг)/(3.Лучник): ");
-        CharClass charClass;
-        switch (input.nextInt()){
-            case 2 -> charClass = CharClass.MAG;
-            case 3 -> charClass = CharClass.ARCHER;
-            default -> charClass = CharClass.WARRIOR;
-        }
+        choiceString = input.nextLine();
+        try {
+            switch (Integer.parseInt(choiceString)) {
+                case 2 -> charClass = CharClass.MAG;
+                case 3 -> charClass = CharClass.ARCHER;
+            }
+        } catch (Exception ignored) {        }
         return new Character(name, charRace, charClass);
     }
+
+    // Загрузка персонажа из файла. Если не удается, создаем нового.
     public static Character loadChar () {
         Character pers;
         String saveStr;
@@ -42,7 +53,7 @@ public abstract class GameLogic {
             if (!saveStr.isEmpty()){
                 pers = new Character(saveStr);
             } else {
-                System.out.println("Отсутствует запись! Создайте нового персонажа:");
+                System.out.println("Отсутствует сохранение! Создайте нового персонажа:");
                 pers = newChar();
             }
         } catch (FileNotFoundException ex) {
@@ -51,12 +62,14 @@ public abstract class GameLogic {
         }
         return pers;
     }
+
+    // Сохранение персонажа в файл
     public static void saveChar (Character charSave) {
         try {
             FileWriter writer = new FileWriter(saves, false);
-            System.out.println("Пишем");
             writer.write(charSave.saveChar());
-            writer.flush();
+            System.out.println("Персонаж сохранен!");
+            writer.close();
         } catch (IOException ex) {
             System.out.println("Не удалось сохранить!");
         }

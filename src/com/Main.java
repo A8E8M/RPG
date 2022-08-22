@@ -16,7 +16,7 @@ public class Main {
 
         System.out.print("(1.Новый герой)/(2.Загрузить): ");
         Scanner input = new Scanner(System.in);
-        if (input.nextInt() == 2) {player = GameLogic.loadChar();
+        if (input.next().charAt(0) == '2') {player = GameLogic.loadChar();
         } else {player = GameLogic.newChar();}
         input.close();
         player.printChar();
