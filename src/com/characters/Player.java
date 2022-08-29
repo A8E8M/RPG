@@ -6,23 +6,25 @@ public class Player extends Character{
     public Player(String name, CharRace charRace, CharClass charClass) {
         super(name, charRace, charClass);
     }
-
     public Player(String saveStr) {
         super(saveStr);
     }
+    // получение опытв
     public void setExp (double exp){
         super.exp += exp;
         if (super.exp>expToLevel[maxLeveL]){super.exp = expToLevel[maxLeveL];}              // проверка на максимальное кол-во опыта
-        for (int i = level; i<maxLeveL; i++) {                                           // перебор всех уровней больше текущего
+        for (int i = level; i<maxLeveL; i++) {                                              // перебор всех уровней больше текущего
             if (super.exp>expToLevel[i] & super.exp<=expToLevel[i+1]){
-                level = i+1;
-                System.out.println("Новый уровень: " + level);
-            }
+                setLevel(i+1);
+             }
         }
     }
-    public void setLevel (int level){
-
+    // повышение уровня
+    protected void setLevel(int level){
+        System.out.println("Новый уровень!" + level);
+        hp = maxHp;
     }
+    // возвращает уровень
     public int getLevel(){
         return level;
     }

@@ -5,7 +5,7 @@ public abstract class Character {
     protected CharRace charRace;                // раса
     protected CharClass charClass;              // класс
     protected int level = 1;                    // уровень
-    protected double exp;                       // опыт до уровня
+    protected double exp = 0;                   // опыт
 
     protected boolean alive = true;             // живой
     protected int maxHp;                        // максимальное количество жизни
@@ -44,23 +44,23 @@ public abstract class Character {
         this.charClass = CharClass.valueOf(save[2]);                // класс
         this.name = save[0];                                        // имя
         this.level = Integer.parseInt(save[3]);                     // уровень
-        this.maxHp = Integer.parseInt(save[4]);                     // количество жизней
-        this.attack = Double.parseDouble(save[5]);                  // атака
-        this.magicPower = Double.parseDouble(save[6]);              // сила магии
-        this.critChance = Double.parseDouble(save[7]);              // шанс крита, %
-        this.crit = Double.parseDouble(save[8]);                    // добавка крита, %
-        this.contreAttack = Double.parseDouble(save[9]);            // шанс контратаки, %
-        this.miss = Double.parseDouble(save[10]);                   // шанс промаха, %
-        this.defence = Double.parseDouble(save[11]);                // защита
-        this.dodge = Double.parseDouble(save[12]);                  // шанс увернуться от удара, %
-        this.parry = Double.parseDouble(save[13]);                  // шанс парировать удар, %
+        this.exp = Double.parseDouble(save[4]);
+        this.maxHp = Integer.parseInt(save[5]);                     // количество жизней
+        this.attack = Double.parseDouble(save[6]);                  // атака
+        this.magicPower = Double.parseDouble(save[7]);              // сила магии
+        this.critChance = Double.parseDouble(save[8]);              // шанс крита, %
+        this.crit = Double.parseDouble(save[9]);                    // добавка крита, %
+        this.contreAttack = Double.parseDouble(save[10]);            // шанс контратаки, %
+        this.miss = Double.parseDouble(save[11]);                   // шанс промаха, %
+        this.defence = Double.parseDouble(save[12]);                // защита
+        this.dodge = Double.parseDouble(save[13]);                  // шанс увернуться от удара, %
+        this.parry = Double.parseDouble(save[14]);                  // шанс парировать удар, %
     }
 
     // сохранение персонажа
     public String saveChar (){
-        return name+" "+charRace+" "+charClass +" " + level+" " + maxHp + " " +  attack + " " +  magicPower + " " +  critChance + " " +  crit + " " +  contreAttack + " " +  miss + " " +  defence + " " +  dodge + " " +  parry;
+        return name+" "+charRace+" "+charClass +" " + level+" " + exp + " " + maxHp + " " +  attack + " " +  magicPower + " " +  critChance + " " +  crit + " " +  contreAttack + " " +  miss + " " +  defence + " " +  dodge + " " +  parry;
     }
-
     // проверяем, жив ли?
     public boolean isAlive (){
         return alive;
@@ -94,6 +94,10 @@ public abstract class Character {
         return dmg;
     }
     public void printChar (){
-        System.out.println(name + "["+charRace.getNameRace()+"-"+charClass.getNameClass()+"]"+ "["+level+"ур.]/" + maxHp + "/" +  attack + "/" +  magicPower + "/" +  critChance + "/" +  crit + "/" +  contreAttack + "/" +  miss + "/" +  defence + "/" +  dodge + "/" +  parry);
+        System.out.println(name + "["+charRace.getNameRace()+"-"+charClass.getNameClass()+"]"+ "["+level+"ур.]/" + exp + "/" + maxHp + "/" +  attack + "/" +  magicPower + "/" +  critChance + "/" +  crit + "/" +  contreAttack + "/" +  miss + "/" +  defence + "/" +  dodge + "/" +  parry);
     }
+    // получение опыта
+    public abstract void setExp (double exp);
+    // повышение уровня
+    protected abstract void setLevel(int level);
 }

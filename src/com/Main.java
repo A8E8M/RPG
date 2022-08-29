@@ -14,19 +14,20 @@ public class Main {
         p1.printChar();
         npc2.printChar();
 
-        p1.setExp(80);
+       /* p1.setExp(80);
         p1.setExp(20);
         p1.setExp(100);
         p1.setExp(500);
-        p1.setExp(900);
+        p1.setExp(900);*/
 
 
-        /*System.out.print("(1.Новый герой)/(2.Загрузить): ");
+        System.out.print("(1.Новый герой)/(2.Загрузить): ");
         Scanner input = new Scanner(System.in);
         if (input.next().charAt(0) == '2') {player = GameLogic.loadChar();
         } else {player = GameLogic.newChar();}
         input.close();
         player.printChar();
-        GameLogic.saveChar(player);*/
+        player.setExp(250);
+        GameLogic.saveChar(player);
     }
 }
