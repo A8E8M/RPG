@@ -1,6 +1,6 @@
 package src.com.characters;
 
-public class Character {
+public abstract class Character {
     protected String name;                      // имя
     protected CharRace charRace;                // раса
     protected CharClass charClass;              // класс
@@ -55,14 +55,45 @@ public class Character {
         this.dodge = Double.parseDouble(save[12]);                  // шанс увернуться от удара, %
         this.parry = Double.parseDouble(save[13]);                  // шанс парировать удар, %
     }
+
+    // сохранение персонажа
     public String saveChar (){
         return name+" "+charRace+" "+charClass +" " + level+" " + maxHp + " " +  attack + " " +  magicPower + " " +  critChance + " " +  crit + " " +  contreAttack + " " +  miss + " " +  defence + " " +  dodge + " " +  parry;
     }
+
+    // проверяем, жив ли?
     public boolean isAlive (){
         return alive;
+    }
+    // критический удар (да/нет)
+    public boolean critChance () {
+        return Math.random() > (1 - critChance);
+    }
+    // контратакуе (да/нет)
+    public boolean contreAttack() { return Math.random() > (1 - contreAttack);}
+    // уворачивается (да/нет)
+    public boolean dodged () {return Math.random() > (1 - dodge);}
+    // промахивается (да/нет)
+    public boolean missed () {return Math.random() > (1 - miss);}
+    // парирует (да/нет)
+    public boolean parried () {return Math.random() > (1 - parry);}
+    // наносит урон
+    public double dealDamage () {
+        if (alive) {
+            if (critChance()) return attack*(1+crit); else return attack;
+        } else return 0;
+    }
+    // получает/блокирует урон
+    public double takeDamage (double damage){
+        double dmg;
+        if (damage>defence) {
+            dmg = (damage - defence)*(0.3*Math.random()+0.7);
+        } else { dmg = 0;}
+        hp -= dmg;
+        if (hp <= 0) {alive = false; hp = 0;}
+        return dmg;
     }
     public void printChar (){
         System.out.println(name + "["+charRace.getNameRace()+"-"+charClass.getNameClass()+"]"+ "["+level+"ур.]/" + maxHp + "/" +  attack + "/" +  magicPower + "/" +  critChance + "/" +  crit + "/" +  contreAttack + "/" +  miss + "/" +  defence + "/" +  dodge + "/" +  parry);
     }
-
 }

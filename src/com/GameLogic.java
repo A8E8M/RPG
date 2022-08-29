@@ -2,7 +2,7 @@ package src.com;
 
 import src.com.characters.CharClass;
 import src.com.characters.CharRace;
-import src.com.characters.Character;
+import src.com.characters.Player;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +15,7 @@ public abstract class GameLogic {
     private static final File saves = new File(filePath);               // файл с сохранением
 
     // Создание нового персонажа.
-    public static Character newChar(){
+    public static Player newChar(){
         CharRace charRace = CharRace.HUMAN;                             // раса по умолчанию
         CharClass charClass = CharClass.WARRIOR;                        // класс по умолчанию
 
@@ -40,18 +40,18 @@ public abstract class GameLogic {
                 case 3 -> charClass = CharClass.ARCHER;
             }
         } catch (Exception ignored) {        }
-        return new Character(name, charRace, charClass);
+        return new Player(name, charRace, charClass);
     }
 
     // Загрузка персонажа из файла. Если не удается, создаем нового.
-    public static Character loadChar () {
-        Character pers;
+    public static Player loadChar () {
+        Player pers;
         String saveStr;
         try {
             Scanner input = new Scanner(saves);
             saveStr = input.nextLine();
             if (!saveStr.isEmpty()){
-                pers = new Character(saveStr);
+                pers = new Player(saveStr);
             } else {
                 System.out.println("Отсутствует сохранение! Создайте нового персонажа:");
                 pers = newChar();
@@ -64,7 +64,7 @@ public abstract class GameLogic {
     }
 
     // Сохранение персонажа в файл
-    public static void saveChar (Character charSave) {
+    public static void saveChar (Player charSave) {
         try {
             FileWriter writer = new FileWriter(saves, false);
             writer.write(charSave.saveChar());
