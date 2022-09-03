@@ -2,13 +2,17 @@ package src.com;
 
 import src.com.characters.CharClass;
 import src.com.characters.CharRace;
+import src.com.characters.Monster;
 import src.com.characters.Player;
+import src.com.characters.Character;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+
+import static java.lang.String.format;
 
 public abstract class GameLogic {
     private static final String filePath = "src/com/saves/saves";       // расположение файла с сохранением
@@ -74,4 +78,5 @@ public abstract class GameLogic {
             System.out.println("Не удалось сохранить!");
         }
     }
+
 }

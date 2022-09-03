@@ -9,7 +9,7 @@ public abstract class Character {
 
     protected boolean alive = true;             // живой
     protected int maxHp;                        // максимальное количество жизни
-    protected double hp = maxHp;                // количество жизней
+    protected double hp;                        // количество жизней
 
     protected double attack;                    // атака
     protected double magicPower;                // сила магии
@@ -28,6 +28,7 @@ public abstract class Character {
         this.charRace = charRace;
         this.charClass = charClass;
         this.maxHp = (int) (charRace.maxHp + charClass.maxHp);                  // количество жизней
+        this.hp = maxHp;
         this.attack = charRace.attack + charClass.attack;                       // атака
         this.magicPower = charRace.magicPower + charClass.magicPower;           // сила магии
         this.critChance = charRace.critChance + charRace.critChance;            // шанс крита, %
@@ -46,6 +47,7 @@ public abstract class Character {
         this.level = Integer.parseInt(save[3]);                     // уровень
         this.exp = Double.parseDouble(save[4]);
         this.maxHp = Integer.parseInt(save[5]);                     // количество жизней
+        this.hp = maxHp;
         this.attack = Double.parseDouble(save[6]);                  // атака
         this.magicPower = Double.parseDouble(save[7]);              // сила магии
         this.critChance = Double.parseDouble(save[8]);              // шанс крита, %
@@ -61,43 +63,48 @@ public abstract class Character {
     public String saveChar (){
         return name+" "+charRace+" "+charClass +" " + level+" " + exp + " " + maxHp + " " +  attack + " " +  magicPower + " " +  critChance + " " +  crit + " " +  contreAttack + " " +  miss + " " +  defence + " " +  dodge + " " +  parry;
     }
+    // получаем имя
+    public String getName(){return name;}
+    // получаем текущее количество жизни
+    public double getHp() {return hp;}
     // проверяем, жив ли?
     public boolean isAlive (){
         return alive;
     }
     // критический удар (да/нет)
     public boolean critChance () {
-        return Math.random() > (1 - critChance);
+        return Math.random() > (1 - critChance/100);
     }
     // контратакуе (да/нет)
-    public boolean contreAttack() { return Math.random() > (1 - contreAttack);}
+    public boolean contreAttack() { return Math.random() > (1 - contreAttack/100);}
     // уворачивается (да/нет)
-    public boolean dodged () {return Math.random() > (1 - dodge);}
+    public boolean dodged () {return Math.random() > (1 - dodge/100);}
     // промахивается (да/нет)
-    public boolean missed () {return Math.random() > (1 - miss);}
+    public boolean missed () {return Math.random() > (1 - miss/100);}
     // парирует (да/нет)
-    public boolean parried () {return Math.random() > (1 - parry);}
+    public boolean parried () {return Math.random() > (1 - parry/100);}
     // наносит урон
     public double dealDamage () {
         if (alive) {
-            if (critChance()) return attack*(1+crit); else return attack;
+            if (critChance()) return attack*(1+crit/100); else return attack;
         } else return 0;
     }
     // получает/блокирует урон
     public double takeDamage (double damage){
-        double dmg;
-        if (damage>defence) {
-            dmg = (damage - defence)*(0.3*Math.random()+0.7);
-        } else { dmg = 0;}
+        double dmg = damage*(1-defence/100)*(0.3*Math.random()+0.7);
         hp -= dmg;
         if (hp <= 0) {alive = false; hp = 0;}
         return dmg;
     }
     public void printChar (){
-        System.out.println(name + "["+charRace.getNameRace()+"-"+charClass.getNameClass()+"]"+ "["+level+"ур.]/" + exp + "/" + maxHp + "/" +  attack + "/" +  magicPower + "/" +  critChance + "/" +  crit + "/" +  contreAttack + "/" +  miss + "/" +  defence + "/" +  dodge + "/" +  parry);
+        System.out.println(name + "["+charRace.getNameRace()+"-"+charClass.getNameClass()+"]"+ "["+level+"ур.]/" + exp + "/" + maxHp + "//" + hp +"/" +  attack + "/" +  magicPower + "/" +  critChance + "/" +  crit + "/" +  contreAttack + "/" +  miss + "/" +  defence + "/" +  dodge + "/" +  parry);
     }
     // получение опыта
     public abstract void setExp (double exp);
     // повышение уровня
     protected abstract void setLevel(int level);
+    // получить уровень
+    public int getLevel(){
+        return level;
+    }
 }

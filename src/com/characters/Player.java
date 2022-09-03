@@ -21,11 +21,11 @@ public class Player extends Character{
     }
     // повышение уровня
     protected void setLevel(int level){
+        super.level=level;
         System.out.println("Новый уровень!" + level);
         hp = maxHp;
     }
     // возвращает уровень
-    public int getLevel(){
-        return level;
-    }
+
+
 }

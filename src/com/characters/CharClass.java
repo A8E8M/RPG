@@ -1,9 +1,9 @@
 package src.com.characters;
 
 public enum CharClass {   // класс персонажа
-    WARRIOR ("воин", 100, 25, 0, 10, 25, 30, 5, 50, 25, 20),  // класс воин
+    WARRIOR ("воин", 100, 25, 0, 10, 25, 30, 5, 50, 10, 10),  // класс воин
     MAG ("маг", 80, 5, 30, 15, 20, 0, 7, 15, 5, 0),            // класс маг
-    ARCHER ("лучник", 90, 30, 5, 12, 22, 0, 10, 25, 10, 5);
+    ARCHER ("лучник", 90, 30, 5, 12, 22, 0, 8, 25, 10, 5);
     final String className;
     final double maxHp, attack, magicPower, critChance, crit, contreAttack, miss, defence, dodge, parry;
 
