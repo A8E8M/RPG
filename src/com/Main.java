@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Player player;
-        Monster npc1 = new Monster("Гулджин", CharRace.TROLL, CharClass.MAG, 1);
+        Monster npc1 = new Monster("Гулджин", CharRace.TROLL, CharClass.MAG, 7);
         Monster npc2 = new Monster("Тралл", CharRace.ORC, CharClass.WARRIOR, 1);
 
         System.out.print("(1.Новый герой)/(2.Загрузить): ");
@@ -21,8 +21,6 @@ public class Main {
         npc1.printChar();
         BattleLogic.startBattle(player,npc1);
         if (player.isAlive()) { GameLogic.saveChar(player); }
-        System.out.println(player.getLevel());
         input.close();
-
     }
 }

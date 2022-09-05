@@ -1,9 +1,9 @@
 package src.com.characters;
 
 public abstract class Character {
-    protected String name;                      // имя
-    protected CharRace charRace;                // раса
-    protected CharClass charClass;              // класс
+    private final String name;                  // имя
+    private final CharRace charRace;            // раса
+    private final CharClass charClass;          // класс
     protected int level = 1;                    // уровень
     protected double exp = 0;                   // опыт
 
@@ -28,7 +28,7 @@ public abstract class Character {
         this.charRace = charRace;
         this.charClass = charClass;
         this.maxHp = (int) (charRace.maxHp + charClass.maxHp);                  // количество жизней
-        this.hp = maxHp;
+        this.hp = this.maxHp;
         this.attack = charRace.attack + charClass.attack;                       // атака
         this.magicPower = charRace.magicPower + charClass.magicPower;           // сила магии
         this.critChance = charRace.critChance + charRace.critChance;            // шанс крита, %
@@ -65,6 +65,10 @@ public abstract class Character {
     }
     // получаем имя
     public String getName(){return name;}
+    // получаем максимальное количество жизни
+    public double getMaxHp () {
+    return maxHp;
+    }
     // получаем текущее количество жизни
     public double getHp() {return hp;}
     // проверяем, жив ли?
@@ -78,26 +82,25 @@ public abstract class Character {
     // контратакуе (да/нет)
     public boolean contreAttack() { return Math.random() > (1 - contreAttack/100);}
     // уворачивается (да/нет)
-    public boolean dodged () {return Math.random() > (1 - dodge/100);}
+    public boolean dodged (int opponentLvl) {return Math.random() > (1 - dodge/100*getLevel()/opponentLvl);}
     // промахивается (да/нет)
-    public boolean missed () {return Math.random() > (1 - miss/100);}
+    public boolean missed (int opponentLvl) {return Math.random() > (1 - miss/100*getLevel()/opponentLvl);}
     // парирует (да/нет)
-    public boolean parried () {return Math.random() > (1 - parry/100);}
+    public boolean parried (int opponentLvl) {return Math.random() > (1 - parry/100*getLevel()/opponentLvl);}
     // наносит урон
-    public double dealDamage () {
+    public double dealDamage (int opponentLvl) {
         if (alive) {
-            if (critChance()) return attack*(1+crit/100); else return attack;
+            double critDmg;
+            if (critChance()) {critDmg = (1+crit/100);} else {critDmg = 1;}
+            return attack*getLevel()/opponentLvl*(0.3*Math.random()+0.7)*critDmg;
         } else return 0;
     }
-    // получает/блокирует урон
+    // получает урон (без учета уровня оппонента, так как учтено в dealDamage)
     public double takeDamage (double damage){
-        double dmg = damage*(1-defence/100)*(0.3*Math.random()+0.7);
+        double dmg = damage*(1-defence/1000);
         hp -= dmg;
         if (hp <= 0) {alive = false; hp = 0;}
         return dmg;
-    }
-    public void printChar (){
-        System.out.println(name + "["+charRace.getNameRace()+"-"+charClass.getNameClass()+"]"+ "["+level+"ур.]/" + exp + "/" + maxHp + "//" + hp +"/" +  attack + "/" +  magicPower + "/" +  critChance + "/" +  crit + "/" +  contreAttack + "/" +  miss + "/" +  defence + "/" +  dodge + "/" +  parry);
     }
     // получение опыта
     public abstract void setExp (double exp);
@@ -106,5 +109,9 @@ public abstract class Character {
     // получить уровень
     public int getLevel(){
         return level;
+    }
+
+    public void printChar (){
+        System.out.println(name + "["+charRace.getNameRace()+"-"+charClass.getNameClass()+"]"+ "["+level+"ур.]/" + exp + "/" + maxHp + "//" + hp +"/" +  attack + "/" +  magicPower + "/" +  critChance + "/" +  crit + "/" +  contreAttack + "/" +  miss + "/" +  defence + "/" +  dodge + "/" +  parry);
     }
 }

@@ -9,7 +9,8 @@ public class Player extends Character{
     public Player(String saveStr) {
         super(saveStr);
     }
-    // получение опытв
+    // получение опыта
+    @Override
     public void setExp (double exp){
         super.exp += exp;
         if (super.exp>expToLevel[maxLeveL]){super.exp = expToLevel[maxLeveL];}              // проверка на максимальное кол-во опыта
@@ -20,12 +21,13 @@ public class Player extends Character{
         }
     }
     // повышение уровня
+    @Override
     protected void setLevel(int level){
         super.level=level;
-        System.out.println("Новый уровень!" + level);
+        maxHp += (level-1)*50;
+        attack += (level-1)*10;
+        defence += (level-1)*5;
+        System.out.println("Новый уровень!");
         hp = maxHp;
     }
-    // возвращает уровень
-
-
 }

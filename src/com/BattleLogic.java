@@ -56,12 +56,12 @@ public abstract class BattleLogic {
         String log;
 
         if (!p1.isAlive()) { log = format("%s убит", p1.getName());                      // проверка "жив ли" атакующий (p1)
-        } else if (p1.missed()) { log = format("%s промахнулся", p1.getName());          // проверка на промах атакующим (p1)
-        } else if (p2.parried()){ log = format("%s парировал", p2.getName());            // проверка на парирование защищающимся (p2)
-        } else if (p2.dodged()) { log = format("%s увернулся", p2.getName());            // проверка на уворот защищающимся (p2)
-        } else { double dmgP1 = p2.takeDamage(p1.dealDamage());                          // нанесено урона защищающемуся (p2)
+        } else if (p1.missed(p2.getLevel())) { log = format("%s промахнулся", p1.getName());          // проверка на промах атакующим (p1)
+        } else if (p2.parried(p1.getLevel())){ log = format("%s парировал", p2.getName());            // проверка на парирование защищающимся (p2)
+        } else if (p2.dodged(p1.getLevel())) { log = format("%s увернулся", p2.getName());            // проверка на уворот защищающимся (p2)
+        } else { double dmgP1 = p2.takeDamage(p1.dealDamage(p1.getLevel()));                          // нанесено урона защищающемуся (p2)
             if (p2.contreAttack()){                                                      // проверка на контратаку (p2)
-                double dmgP2 = p1.takeDamage(p2.dealDamage());
+                double dmgP2 = p1.takeDamage(p2.dealDamage(p2.getLevel()));
                 log = format("%s нанес %s урон %.1f (осталось: %.1f)",p1.getName(), p2.getName(), dmgP1, p2.getHp() ) + format(", %s контратаковал %s и нанес урон %.1f (осталось: %.1f)", p2.getName(), p1.getName(), dmgP2, p1.getHp());
             } else {log = format("%s нанес %s урон %.1f (осталось: %.1f)",p1.getName(), p2.getName(), dmgP1, p2.getHp() );}    // лог обычного урона
         }
