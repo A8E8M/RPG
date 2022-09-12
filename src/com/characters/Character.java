@@ -111,7 +111,7 @@ public abstract class Character {
         return level;
     }
 
-    public void printChar (){
-        System.out.println(name + "["+charRace.getNameRace()+"-"+charClass.getNameClass()+"]"+ "["+level+"ур.]/" + exp + "/" + maxHp + "//" + hp +"/" +  attack + "/" +  magicPower + "/" +  critChance + "/" +  crit + "/" +  contreAttack + "/" +  miss + "/" +  defence + "/" +  dodge + "/" +  parry);
+    public String toString (){
+        return  name + "["+charRace.getNameRace()+"-"+charClass.getNameClass()+"]"+ "["+level+"ур.]/" + exp + "/" + maxHp + "//" + hp +"/" +  attack + "/" +  magicPower + "/" +  critChance + "/" +  crit + "/" +  contreAttack + "/" +  miss + "/" +  defence + "/" +  dodge + "/" +  parry;
     }
 }
