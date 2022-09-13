@@ -51,11 +51,8 @@ public abstract class GameLogic {
 
     // Сохранение персонажа в файл
     public static void saveChar (Player charSave) {
-        try {
-            FileOutputStream fos = new FileOutputStream(saves);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(charSave);                                          // Запись персонажа в файл
-            oos.close();                                                        // Закрытие потока
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saves))){         // автоматическое закрытие потока
+            oos.writeObject(charSave);                                                              // Запись персонажа в файл
             System.out.println("Персонаж сохранен!");
         } catch (IOException e) {
             System.out.println("Ошибка записи!");
