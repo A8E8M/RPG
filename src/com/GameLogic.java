@@ -4,15 +4,12 @@ import src.com.characters.CharClass;
 import src.com.characters.CharRace;
 import src.com.characters.Player;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public abstract class GameLogic {
-    private static final String filePath = "src/com/saves/saves";       // расположение файла с сохранением
-    private static final File saves = new File(filePath);               // файл с сохранением
+    private static final String filePath = "src/com/saves/saves.bin";       // расположение файла с сохранением
+    private static final File saves = new File(filePath);                   // файл с сохранением
 
     // Создание нового персонажа.
     public static Player newChar(){
@@ -44,35 +41,26 @@ public abstract class GameLogic {
     }
 
     // Загрузка персонажа из файла. Если не удается, создаем нового.
-    public static Player loadChar () {
-        Player pers;
-        String saveStr;
-        try {
-            Scanner input = new Scanner(saves);
-            saveStr = input.nextLine();
-            if (!saveStr.isEmpty()){
-                pers = new Player(saveStr);
-            } else {
-                System.out.println("Отсутствует сохранение! Создайте нового персонажа:");
-                pers = newChar();
-            }
-        } catch (FileNotFoundException ex) {
-            System.out.println("Отсутствует файл! Создайте нового персонажа:");
-            pers = newChar();
-        }
+    public static Player loadChar () throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(saves);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        Player pers = (Player) ois.readObject();                            // Чтение персонажа из файла
+        ois.close();                                                        // Закрытие потока
         return pers;
     }
 
     // Сохранение персонажа в файл
     public static void saveChar (Player charSave) {
         try {
-            FileWriter writer = new FileWriter(saves, false);
-            writer.write(charSave.saveChar());
+            FileOutputStream fos = new FileOutputStream(saves);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(charSave);                                          // Запись персонажа в файл
+            oos.close();                                                        // Закрытие потока
             System.out.println("Персонаж сохранен!");
-            writer.close();
-        } catch (IOException ex) {
-            System.out.println("Не удалось сохранить!");
+        } catch (IOException e) {
+            System.out.println("Ошибка записи!");
         }
+
     }
 
 }

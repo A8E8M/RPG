@@ -1,6 +1,8 @@
 package src.com.characters;
 
-public abstract class Character {
+import java.io.Serializable;
+
+public abstract class Character implements Serializable {
     private final String name;                  // имя
     private final CharRace charRace;            // раса
     private final CharClass charClass;          // класс
